@@ -1,5 +1,3 @@
-apply plugin: 'maven-publish'
-
 afterEvaluate {
     publishing {
         publications {
@@ -8,7 +6,9 @@ afterEvaluate {
                 artifactId releaseArtifactId
                 version releaseVersion
 
+                // Ensure that the release AAR is built before publishing
                 artifact("${project.buildDir}/outputs/aar/${project.name}-release.aar") {
+                    builtBy tasks.named('assembleRelease') // Ensure .aar is built before publishing
                     extension "aar"
                 }
 
@@ -31,9 +31,9 @@ afterEvaluate {
                             def moduleArtifactMapToGroupId = [
                                     "xfetch2": "androidx.tonyodev.fetch2",
                                     "xfetch2core": "androidx.tonyodev.fetch2core",
-                                    "xfetch2fileserver": "androidx.tonyodev.fetch2fileserver",
-                                    "xfetch2okhttp": "androidx.tonyodev.fetch2okhttp",
-                                    "xfetch2rx": "androidx.tonyodev.fetch2rx",
+                                    "fetch2fileserver": "androidx.tonyodev.fetch2fileserver",
+                                    "fetch2okhttp": "androidx.tonyodev.fetch2okhttp",
+                                    "fetch2rx": "androidx.tonyodev.fetch2rx",
                                     "xfetchmigrator": "androidx.tonyodev.fetchmigrator"
                             ]
                             def realArtifactId = moduleNameMapToArtifact[it.moduleName]
